@@ -1,9 +1,5 @@
+# This is a placeholder for the Gemma2 model. Replace it with actual logic.
 class Gemma2Chatbot:
-    def __init__(self):
-        self.model = self.load_model()
-
-    def load_model(self):
-        return "Gemma2 Model Loaded"
-
-    def get_response(self, message):
-        return f"Gemma2 says: '{message}' is received!"
+    def get_response(self, user_message):
+        # Sample response
+        return f"Response to: {user_message}"

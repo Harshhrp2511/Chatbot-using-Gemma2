@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
-from model import Gemma2Chatbot
 import json
 from flask_cors import CORS
 
@@ -16,6 +15,12 @@ if not os.path.exists("users.json"):
 # Load users
 with open("users.json", "r") as file:
     users = json.load(file)
+
+# Initialize chatbot (Gemma2 placeholder)
+class Gemma2Chatbot:
+    def get_response(self, user_message):
+        # Placeholder for the Gemma2 model logic
+        return "This is a response from Gemma2."
 
 # Initialize chatbot
 chatbot = Gemma2Chatbot()
