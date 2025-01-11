@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 from model import Gemma2Chatbot
 import json
@@ -6,6 +7,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 CORS(app)
+
+# Check if users.json exists, if not, create it with an empty dictionary
+if not os.path.exists("users.json"):
+    with open("users.json", "w") as file:
+        json.dump({}, file)
 
 # Load users
 with open("users.json", "r") as file:
