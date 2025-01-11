@@ -1,39 +1,54 @@
-function toggleForms() {
-    document.getElementById("signup-form").style.display = 
-        document.getElementById("signup-form").style.display === "none" ? "block" : "none";
-    document.getElementById("login-form").style.display = 
-        document.getElementById("login-form").style.display === "none" ? "block" : "none";
+function signup() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    fetch("/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message));
 }
 
-async function signup() {
-    const username = document.getElementById("signup-username").value;
-    const password = document.getElementById("signup-password").value;
+function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    const response = await fetch("/signup", {
+    fetch("/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            window.location.href = "/chatbot";
+        } else {
+            alert(data.message);
+        }
     });
-
-    const data = await response.json();
-    alert(data.message);
-    if (data.status === "success") toggleForms();
 }
 
-async function login() {
-    const username = document.getElementById("login-username").value;
-    const password = document.getElementById("login-password").value;
+function sendMessage() {
+    const message = document.getElementById("user-message").value;
+    const chatBox = document.getElementById("chat-box");
 
-    const response = await fetch("/login", {
+    fetch("/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const botMessage = document.createElement("div");
+        botMessage.textContent = "Bot: " + data.response;
+        chatBox.appendChild(botMessage);
     });
-
-    const data = await response.json();
-    if (data.status === "success") {
-        window.location.href = "/chatbot";
-    } else {
-        alert(data.message);
-    }
 }
