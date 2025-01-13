@@ -1,10 +1,11 @@
 import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import json
+import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = "8ccf136fdd52 "
 CORS(app)
 
 # Check if users.json exists, if not, create it with an empty dictionary
@@ -16,11 +17,28 @@ if not os.path.exists("users.json"):
 with open("users.json", "r") as file:
     users = json.load(file)
 
-# Initialize chatbot (Gemma2 placeholder)
+# Initialize chatbot (Gemma2:2b API integration)
 class Gemma2Chatbot:
     def get_response(self, user_message):
-        # Placeholder for the Gemma2 model logic
-        return "This is a response from Gemma2."
+        # Replace with your Gemma2:2b API endpoint
+        url = "http://api.gemma2.com/2b"  # Example API URL for Gemma2:2b
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_API_KEY",  # If needed, use an API key
+        }
+
+        payload = {
+            "input": user_message
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            # Assuming the response has the answer in a 'response' field
+            return response.json().get("response", "No response from Gemma2.")
+        else:
+            return "Error: Unable to connect to Gemma2 API."
 
 # Initialize chatbot
 chatbot = Gemma2Chatbot()
