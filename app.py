@@ -25,9 +25,9 @@ def login():
         if user and bcrypt.check_password_hash(user.password, password):
             session['user_id'] = user.id
             flash('Login successful!', 'success')
-            return redirect(url_for('chatbot'))
+            return redirect(url_for('chat'))
         flash('Invalid credentials. Please try again.', 'danger')
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -45,12 +45,15 @@ def signup():
         return redirect(url_for('login'))
     return render_template('signup.html')
 
-@app.route('/chatbot')
-def chatbot():
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
     if 'user_id' not in session:
         flash('You need to log in to access the chatbot.', 'warning')
         return redirect(url_for('login'))
-    return render_template('chatbot.html')
+    
+    # Here you can integrate the Gemma2-based chatbot logic
+    
+    return render_template('chat.html')
 
 @app.route('/logout')
 def logout():
@@ -59,8 +62,6 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
-    # Ensure application context is available before creating database tables
     with app.app_context():
         db.create_all()  # Create all database tables within the app context
-
     app.run(debug=True)

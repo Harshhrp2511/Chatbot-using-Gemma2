@@ -7,27 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="menu">
-            <button class="dropdown">Settings</button>
-            <ul class="dropdown-content">
-                <li><a href="#">Settings</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
+    <div class="chat-container">
+        <div class="sidebar">
+            <h3>Chat History</h3>
+            <div id="chat-history">
+                <!-- Chat history will be displayed here -->
+            </div>
         </div>
-        <h3>Chat History</h3>
-        <div id="history">
-            <!-- Chat history will go here -->
+        <div class="chatbox">
+            <div id="chat-output">
+                <!-- Chatbot output will appear here -->
+            </div>
+            <input type="text" id="user-input" placeholder="Type your message..." />
+            <button id="send-btn">Send</button>
         </div>
-    </div>
-    <div class="chat">
-        <div id="chatbox">
-            <!-- Messages will appear here -->
-        </div>
-        <form id="chatForm">
-            <input type="text" id="message" placeholder="Type your message" required>
-            <button type="submit">Send</button>
-        </form>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
