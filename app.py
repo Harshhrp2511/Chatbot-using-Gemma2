@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = 'secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking
 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
@@ -24,10 +23,9 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
             session['user_id'] = user.id
-            flash('Login successful!', 'success')
-            return redirect(url_for('chat'))
-        flash('Invalid credentials. Please try again.', 'danger')
-    return render_template('index.html')
+            return redirect(url_for('chatbot'))
+        flash('Invalid credentials, please try again!', 'danger')
+    return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -45,23 +43,18 @@ def signup():
         return redirect(url_for('login'))
     return render_template('signup.html')
 
-@app.route('/chat', methods=['GET', 'POST'])
-def chat():
+@app.route('/chatbot')
+def chatbot():
     if 'user_id' not in session:
-        flash('You need to log in to access the chatbot.', 'warning')
         return redirect(url_for('login'))
-    
-    # Here you can integrate the Gemma2-based chatbot logic
-    
     return render_template('chat.html')
 
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # Create all database tables within the app context
+        db.create_all()  # Create all tables if they don't exist
     app.run(debug=True)
