@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.login-container, .chat-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.login-container {
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.input-group {
+    margin: 15px 0;
+}
+
+input[type="text"], input[type="password"], button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.chat-container {
+    display: flex;
+    margin-top: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.chatbox {
+    flex: 1;
+    padding: 10px;
+    background-color: #fff;
+    border-left: 1px solid #ddd;
+}
+
+#user-input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#send-btn {
+    width: 15%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#send-btn:hover {
+    background-color: #45a049;
+}
