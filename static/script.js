@@ -1,54 +1,24 @@
-function signup() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    fetch("/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
+document.getElementById('chatForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const message = document.getElementById('message').value;
+    const chatbox = document.getElementById('chatbox');
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('user-message');
+    userMessage.textContent = message;
+    chatbox.appendChild(userMessage);
+    
+    // Send message to Flask server and get response
+    fetch('/ask', {
+        method: 'POST',
+        body: new URLSearchParams({ message: message })
     })
-    .then(response => response.json())
-    .then(data => alert(data.message));
-}
-
-function login() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    fetch("/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
-        if (data.status === "success") {
-            window.location.href = "/chatbot";
-        } else {
-            alert(data.message);
-        }
+        const botMessage = document.createElement('div');
+        botMessage.classList.add('bot-message');
+        botMessage.textContent = data;
+        chatbox.appendChild(botMessage);
     });
-}
 
-function sendMessage() {
-    const message = document.getElementById("user-message").value;
-    const chatBox = document.getElementById("chat-box");
-
-    fetch("/chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const botMessage = document.createElement("div");
-        botMessage.textContent = "Bot: " + data.response;
-        chatBox.appendChild(botMessage);
-    });
-}
+    document.getElementById('message').value = '';
+});
