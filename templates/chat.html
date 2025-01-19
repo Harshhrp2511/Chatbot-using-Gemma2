@@ -8,21 +8,47 @@
 </head>
 <body>
     <div class="chat-container">
-        <div class="sidebar">
-            <h3>Chat History</h3>
-            <div id="chat-history">
-                <!-- Chat history will be displayed here -->
-            </div>
+        <div id="chatbox">
+            <!-- Display chat messages here -->
         </div>
-        <div class="chatbox">
-            <div id="chat-output">
-                <!-- Chatbot output will appear here -->
-            </div>
-            <input type="text" id="user-input" placeholder="Type your message..." />
-            <button id="send-btn">Send</button>
-        </div>
+
+        <form id="chat-form" method="POST">
+            <input type="text" id="user-input" name="user_input" placeholder="Ask me something..." required>
+            <button type="submit">Send</button>
+        </form>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        const form = document.getElementById('chat-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const userInput = document.getElementById('user-input').value;
+            if (userInput) {
+                const chatbox = document.getElementById('chatbox');
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('user-message');
+                userMessage.textContent = userInput;
+                chatbox.appendChild(userMessage);
+                document.getElementById('user-input').value = '';
+
+                // Call your chatbot API here (or process the message)
+                fetch('/get_bot_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: userInput })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('bot-message');
+                    botMessage.textContent = data.response;  // Display bot response
+                    chatbox.appendChild(botMessage);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
