@@ -9,6 +9,17 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <form method="POST">
             <div class="input-group">
                 <label for="username">Username</label>
@@ -20,7 +31,7 @@
             </div>
             <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Signup here</a></p>
     </div>
 </body>
 </html>
