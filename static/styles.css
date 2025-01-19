@@ -1,62 +1,59 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Arial', sans-serif;
     margin: 0;
+    display: flex;
 }
 
-.form-container {
+.container {
     width: 300px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
 }
 
-input {
+input, button {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #45a049;
-}
-
-#chat-container {
-    width: 400px;
-    background-color: #fff;
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: white;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#chat-box {
-    height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
+.chat {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+#chatbox {
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
     margin-bottom: 10px;
 }
 
-input[type="text"] {
+form input {
     width: 80%;
 }
 
-button {
+form button {
     width: 18%;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #f1f1f1;
+    list-style-type: none;
+    padding: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
