@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-import openai  # If using OpenAI GPT for chatbot functionality
+import gemma_2b_model 
 
 # Initialize Flask app and configurations
 app = Flask(__name__)
@@ -11,8 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
-# OpenAI API key setup (replace with your own API key if using OpenAI)
-openai.api_key = 'your-api-key-here'
+# Import Gemma 2B model or API (make sure to install any necessary libraries to interact with Gemma 2B)
+# For this example, we'll assume Gemma is a local Python function or module
+# from gemma import Gemma2B  # Uncomment this line if Gemma 2B is an importable Python module
 
 # User model for database
 class User(db.Model):
@@ -51,25 +52,16 @@ def signup():
         return redirect(url_for('login'))
     return render_template('signup.html')
 
-# Function for getting chatbot response using OpenAI API (or you can use any custom logic here)
+# Function for getting chatbot response using Gemma 2B model (or your custom logic here)
 def get_chatbot_response(user_input):
-    # You can replace the following block with a more sophisticated chatbot logic
-    # For now, we'll use a simple OpenAI GPT integration for real responses.
-    
-    # Uncomment the next block for OpenAI integration:
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # You can use "gpt-3.5-turbo" or another model
-            prompt=user_input,
-            max_tokens=100,
-            n=1,
-            stop=None,
-            temperature=0.7
-        )
-        return response.choices[0].text.strip()  # Get the chatbot's response
+        # Replace this with the actual interaction with the Gemma 2B model
+        # If Gemma 2B is a callable function, you can use that here. For example:
+        response = gemma_2b_model.chat(user_input)  # Hypothetical function call for Gemma 2B
+        return response  # Return the chatbot's response
 
     except Exception as e:
-        print(f"Error with OpenAI API: {e}")
+        print(f"Error with Gemma 2B model: {e}")
         return "Sorry, I couldn't process your request at the moment."
 
 # Route for the chatbot interface
@@ -89,6 +81,15 @@ def get_bot_response():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
+
+def get_chatbot_response(user_input):
+    try:
+        # Replace this with actual logic for getting response from your local Gemma 2B model
+        response = gemma_2b_model.chat(user_input)  # Hypothetical method call to interact with Gemma 2B
+        return response
+    except Exception as e:
+        print(f"Error with Gemma 2B model: {e}")
+        return "Sorry, I couldn't process your request at the moment."
 
 # Create database tables if they don't exist
 if __name__ == "__main__":
